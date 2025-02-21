@@ -1,0 +1,39 @@
+# Dependency management
+node_modules/
+
+# Build artifacts
+dist/
+build/
+out/
+
+# Environment variables
+.env
+
+# TypeScript cache
+*.tsbuildinfo
+
+# IDE-specific files
+.vscode/
+.idea/
+*.code-workspace
+
+# Logs and temp files
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing artifacts
+coverage/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Docker-related files (if applicable)
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Other temporary or local files
+*.log
