@@ -1,10 +1,18 @@
-// getting-started.js
-const mongoose = require("mongoose");
+import app from "./app";
+import config from "./app/config";
+import mongoose from "mongoose";
+
+const PORT = config.port;
 
 async function main() {
-  await mongoose.connect(process.env.MONGODB_URI);
+  try {
+    await mongoose.connect(config.mongodbUri as string);
+    app.listen(PORT, () => {
+      console.log(`Example app listening on port ${PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+main();
