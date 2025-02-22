@@ -20,6 +20,8 @@ export default [
     rules: {
       eqeqeq: "off", // Disable === enforcement
       "no-unused-vars": "error", // Enforce no unused variables
+      "no-console": "warn", // Warn on console usage
+      "no-undef": "error", // Enforce no undefined variables
       "prefer-const": ["error", { ignoreReadBeforeAssign: true }], // Prefer const over let/var
       ...typescriptPlugin.configs.recommended.rules, // Include recommended TypeScript rules
     },

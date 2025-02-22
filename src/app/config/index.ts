@@ -1,5 +1,4 @@
 // Import required modules
-
 import path from "path";
 import dotenv from "dotenv";
 import process from "process";
@@ -8,8 +7,7 @@ import process from "process";
 dotenv.config({ path: path.join(process.cwd(), ".env") });
 
 // Example: Access an environment variable
-console.log(process.env.MONGODB_URI);
-console.log(process.env.PORT);
+// console.log(process.env.MONGODB_URI);
 
 export default {
   port: process.env.PORT,

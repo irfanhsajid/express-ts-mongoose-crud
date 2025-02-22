@@ -8,11 +8,11 @@ async function main() {
   try {
     await mongoose.connect(config.mongodbUri as string);
     app.listen(PORT, () => {
-      console.log(`Example app listening on port ${PORT}`);
+      console.log(`App listening on port ${PORT}`);
     });
   } catch (error) {
     console.log(error);
   }
 }
-
+// calling the main function
 main();
