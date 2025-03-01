@@ -34,5 +34,5 @@ export type Student = {
   guardian: Guardian;
   localGuardian?: LocalGuardian;
   profilePicture?: string;
-  isActive: "active" | "blocked";
+  isActive: "active" | "inactive";
 };
