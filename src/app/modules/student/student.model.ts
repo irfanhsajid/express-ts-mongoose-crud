@@ -9,11 +9,17 @@ import {
 const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
+    trim: true,
     required: [true, "First name is required"],
+    maxlength: [20, "First name can not be more than 50 characters"],
   },
-  middleName: { type: String },
+  middleName: {
+    type: String,
+    trim: true,
+  },
   lastName: {
     type: String,
+    trim: true,
     required: [true, "Last name is required"],
   },
 });
@@ -21,37 +27,55 @@ const userNameSchema = new Schema<UserName>({
 const guardianSchema = new Schema<Guardian>({
   fatherName: {
     type: String,
+    trim: true,
     required: [true, "Father's name is required"],
   },
   motherName: {
     type: String,
+    trim: true,
     required: [true, "Mother's name is required"],
   },
-  fatherOccupation: { type: String },
-  motherOccupation: { type: String },
+  fatherOccupation: {
+    type: String,
+    trim: true,
+  },
+  motherOccupation: {
+    type: String,
+    trim: true,
+  },
   fatherContactNo: {
     type: String,
     required: [true, "Father's contact number is required"],
   },
-  motherContactNo: { type: String },
+  motherContactNo: {
+    type: String,
+  },
 });
 
 const localGuardianSchema = new Schema<LocalGuardian>({
   name: {
     type: String,
+    trim: true,
     required: [true, "Local guardian name is required"],
   },
   contactNo: {
     type: String,
     required: [true, "Local guardian contact number is required"],
   },
-  address: { type: String },
-  occupation: { type: String },
+  address: {
+    type: String,
+    trim: true,
+  },
+  occupation: {
+    type: String,
+    trim: true,
+  },
 });
 
 const studentSchema = new Schema<Student>({
   id: {
     type: String,
+    unique: true,
     required: [true, "Student ID is required"],
   },
   name: userNameSchema,
@@ -63,7 +87,9 @@ const studentSchema = new Schema<Student>({
     },
     required: [true, "Gender is required"],
   },
-  dateOfBirth: { type: String },
+  dateOfBirth: {
+    type: String,
+  },
   email: {
     type: String,
     required: [true, "Email is required"],
@@ -85,15 +111,19 @@ const studentSchema = new Schema<Student>({
   },
   presentAddress: {
     type: String,
+    trim: true,
     required: [true, "Present address is required"],
   },
   permanentAddress: {
     type: String,
+    trim: true,
     required: [true, "Permanent address is required"],
   },
   guardian: guardianSchema,
   localGuardian: localGuardianSchema,
-  profilePicture: { type: String },
+  profilePicture: {
+    type: String,
+  },
   isActive: {
     type: String,
     enum: {
