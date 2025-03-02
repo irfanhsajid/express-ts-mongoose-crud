@@ -6,6 +6,8 @@ import {
   UserName,
 } from "./student.interface";
 
+import validator from "validator";
+
 // capitalizeString function
 const capitalizeString = (value: string) => {
   if (!value) return value;
@@ -16,6 +18,7 @@ const capitalizeString = (value: string) => {
     .join(" ");
 };
 
+//custom validator function for name
 const nameValidator = {
   validator: function (value: string) {
     return /^[a-zA-Z ]+$/.test(value);
@@ -43,8 +46,11 @@ const userNameSchema = new Schema<UserName>({
     type: String,
     trim: true,
     required: [true, "Last name is required"],
-    set: capitalizeString,
-    validate: nameValidator,
+    validate: {
+      validator: (value: string) => validator.isAlpha(value),
+      message:
+        "{VALUE} is not a valid name! Only letters and spaces are allowed.",
+    },
   },
 });
 
@@ -127,6 +133,10 @@ const studentSchema = new Schema<Student>({
   email: {
     type: String,
     required: [true, "Email is required"],
+    validate: {
+      validator: (value: string) => validator.isEmail(value),
+      message: "{VALUE} is not a valid email",
+    },
   },
   contactNo: {
     type: String,
