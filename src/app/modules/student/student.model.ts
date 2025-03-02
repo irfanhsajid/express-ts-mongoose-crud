@@ -6,21 +6,45 @@ import {
   UserName,
 } from "./student.interface";
 
+// capitalizeString function
+const capitalizeString = (value: string) => {
+  if (!value) return value;
+  return value
+    .trim()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
+
+const nameValidator = {
+  validator: function (value: string) {
+    return /^[a-zA-Z ]+$/.test(value);
+  },
+  message: (props: { value: string }) =>
+    `${props.value} is not a valid name! Only letters and spaces are allowed.`,
+};
+
 const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
     trim: true,
     required: [true, "First name is required"],
-    maxlength: [20, "First name can not be more than 50 characters"],
+    maxlength: [20, "First name can not be more than 20 characters"],
+    set: capitalizeString,
+    validate: nameValidator,
   },
   middleName: {
     type: String,
     trim: true,
+    set: capitalizeString,
+    validate: nameValidator,
   },
   lastName: {
     type: String,
     trim: true,
     required: [true, "Last name is required"],
+    set: capitalizeString,
+    validate: nameValidator,
   },
 });
 
@@ -29,19 +53,25 @@ const guardianSchema = new Schema<Guardian>({
     type: String,
     trim: true,
     required: [true, "Father's name is required"],
+    set: capitalizeString,
+    validate: nameValidator,
   },
   motherName: {
     type: String,
     trim: true,
     required: [true, "Mother's name is required"],
+    set: capitalizeString,
+    validate: nameValidator,
   },
   fatherOccupation: {
     type: String,
     trim: true,
+    set: capitalizeString,
   },
   motherOccupation: {
     type: String,
     trim: true,
+    set: capitalizeString,
   },
   fatherContactNo: {
     type: String,
@@ -57,6 +87,8 @@ const localGuardianSchema = new Schema<LocalGuardian>({
     type: String,
     trim: true,
     required: [true, "Local guardian name is required"],
+    set: capitalizeString,
+    validate: nameValidator,
   },
   contactNo: {
     type: String,
@@ -65,10 +97,12 @@ const localGuardianSchema = new Schema<LocalGuardian>({
   address: {
     type: String,
     trim: true,
+    set: capitalizeString,
   },
   occupation: {
     type: String,
     trim: true,
+    set: capitalizeString,
   },
 });
 
@@ -113,11 +147,13 @@ const studentSchema = new Schema<Student>({
     type: String,
     trim: true,
     required: [true, "Present address is required"],
+    set: capitalizeString,
   },
   permanentAddress: {
     type: String,
     trim: true,
     required: [true, "Permanent address is required"],
+    set: capitalizeString,
   },
   guardian: guardianSchema,
   localGuardian: localGuardianSchema,
