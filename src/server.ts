@@ -12,6 +12,7 @@ async function main() {
     });
   } catch (error) {
     console.log(error);
+    
   }
 }
 // calling the main function

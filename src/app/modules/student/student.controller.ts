@@ -1,24 +1,42 @@
+// student.controller.ts
 import { Request, Response } from "express";
 import { StudentServices } from "./student.service";
+import JoiValidatedStudentSchema from "./student.validation";
 
 const createStudent = async (req: Request, res: Response) => {
   try {
-    // get the data from request body
+    // Get the data from request body
     const { student: studentData } = req.body;
-    // call service function to send this data to database
-    const result = await StudentServices.createStudentIntoDB(studentData);
-    // send the response back to client
+
+    // Validate the data using Joi schema
+    const { error, value } = JoiValidatedStudentSchema.validate(studentData, {
+      abortEarly: false,
+      stripUnknown: true,
+    });
+
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation Error",
+        error: error.details,
+      });
+    }
+
+    // Call service function to send validated data to database
+    const result = await StudentServices.createStudentIntoDB(value);
+
+    // Send successful response back to client
     res.status(201).json({
       success: true,
       message: "Student created successfully",
       data: result,
     });
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      data: error,
+      error: error instanceof Error ? error.message : error,
     });
   }
 };
@@ -33,7 +51,11 @@ const getAllStudents = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error instanceof Error ? error.message : error,
+    });
   }
 };
 
@@ -48,7 +70,11 @@ const getSingleStudent = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error instanceof Error ? error.message : error,
+    });
   }
 };
 
@@ -57,5 +83,3 @@ export const StudentController = {
   getAllStudents,
   getSingleStudent,
 };
-
-// PATTERN :: controller > routes > app.ts
