@@ -10,7 +10,7 @@ export interface Guardian {
   fatherOccupation: string;
   motherOccupation: string;
   fatherContactNo: string;
-  motherContactNo: string;
+  motherContactNo?: string;
 }
 
 export interface LocalGuardian {

@@ -1,9 +1,11 @@
 // student.controller.ts
 import { Request, Response } from "express";
 import { StudentServices } from "./student.service";
-import JoiValidatedStudentSchema from "./student.validation";
+import JoiValidatedStudentSchema from "./student.validation-using-joi";
+import { studentValidationSchema } from "./student.validation";
 
-const createStudent = async (req: Request, res: Response) => {
+// using joi validaiton schema
+export const createStudentUsingJoi = async (req: Request, res: Response) => {
   try {
     // Get the data from request body
     const { student: studentData } = req.body;
@@ -24,6 +26,36 @@ const createStudent = async (req: Request, res: Response) => {
 
     // Call service function to send validated data to database
     const result = await StudentServices.createStudentIntoDB(value);
+
+    // Send successful response back to client
+    res.status(201).json({
+      success: true,
+      message: "Student created successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error instanceof Error ? error.message : error,
+    });
+  }
+};
+
+// using zod validation 
+const createStudent = async (req: Request, res: Response) => {
+  try {
+    // Get the data from request body
+    const { student: studentData } = req.body;
+
+    // Validate the data using Zod schema
+   
+    const zodParsedData = studentValidationSchema.parse(studentData)
+
+ 
+    // Call service function to send validated data to database
+    const result = await StudentServices.createStudentIntoDB(zodParsedData);
 
     // Send successful response back to client
     res.status(201).json({
